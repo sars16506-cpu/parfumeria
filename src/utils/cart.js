@@ -19,6 +19,8 @@ export function addToCart(item) {
         cart.push({ ...item, quantity: 1 })
     }
     localStorage.setItem("pv_cart", JSON.stringify(cart))
+    window.dispatchEvent(new Event("cart-updated"));
+
     console.log("Cart updated:", cart) // проверка
 }
 
@@ -28,3 +30,5 @@ export function removeFromCart(product_id, ml_sizes) {
     )
     localStorage.setItem("pv_cart", JSON.stringify(cart))
 }
+
+
