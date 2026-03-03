@@ -1,0 +1,43 @@
+.brands__box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: scroll;
+}
+
+.brands{
+    /* margin-bottom: 42px; */
+}
+
+.brands__box {
+    overflow: hidden;
+    white-space: nowrap;
+    /* background: #f5f5f5; */
+    padding: 20px 0;
+}
+
+.brands__track {
+    display: inline-flex;
+    gap: 80px;
+    animation: scroll 30s linear infinite;
+}
+
+.brands__track img {
+    height: 60px;
+    object-fit: contain;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+
+.brands__track:hover {
+    animation-play-state: paused;
+}

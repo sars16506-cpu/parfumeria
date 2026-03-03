@@ -1,0 +1,222 @@
+/* ===== Items / Basket — Full Width ===== */
+
+.basket {
+    padding-top: 120px;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 48px;
+}
+
+.basket__title {
+    font-size: 44px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+/* ─── List ─────────────────────────────── */
+.basket__list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.basket__items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 24px 0;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+}
+
+/* ─── Left: photo + text ────────────────── */
+.basket__content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
+}
+
+.basket__photo img {
+    width: 180px;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+}
+
+.basket__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.basket__ml {
+    color: #6B6B6B;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.basket__brand {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.basket__name {
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ─── Right: price + controls ───────────── */
+.basket__order {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+    flex-shrink: 0;
+    min-width: 320px;
+}
+
+.basket__pc {
+    display: flex;
+    align-items: baseline;
+    gap: 32px;
+    justify-content: flex-end;
+}
+
+.basket__how-many {
+    font-size: 20px;
+    font-weight: 300;
+    color: #6B6B6B;
+}
+
+.basket__money {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+/* ─── Counter row ───────────────────────── */
+.basket__count {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-end;
+}
+
+.basket__counter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.basket__inner-counter {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #A8A8A8;
+    background: #f5f5f5;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.basket__inner-counter button {
+    padding: 8px 14px;
+    font-size: 20px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    line-height: 1;
+}
+
+.basket__inner-counter button:hover {
+    background: #e0e0e0;
+}
+
+.basket__inner-counter input {
+    padding: 8px;
+    width: 48px;
+    background-color: #E1E1E1;
+    border: none;
+    border-left: 1.5px solid #A8A8A8;
+    border-right: 1.5px solid #A8A8A8;
+    text-align: center;
+    font-size: 16px;
+    outline: none;
+}
+
+.basket__del-or-like {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.basket__del-or-like button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.basket__del-or-like button:hover {
+    background: #f0f0f0;
+}
+
+.basket__new-money {
+    font-size: 24px;
+    font-weight: 500;
+    min-width: 110px;
+    text-align: right;
+}
+
+/* ─── Responsive ────────────────────────── */
+@media (max-width: 900px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .basket__items {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .basket__order {
+        width: 100%;
+        align-items: flex-start;
+        min-width: unset;
+    }
+
+    .basket__count {
+        justify-content: flex-start;
+    }
+
+    .basket__pc {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .basket__brand { font-size: 22px; }
+    .basket__name  { font-size: 18px; }
+    .basket__photo img { width: 120px; height: 110px; }
+}

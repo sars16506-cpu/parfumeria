@@ -1,0 +1,333 @@
+/* ── Backdrop ──────────────────────────────────────────────────────────────── */
+.m-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+    animation: mFade 0.2s ease;
+}
+
+@keyframes mFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ── Box ───────────────────────────────────────────────────────────────────── */
+.m-box {
+    position: relative;
+    background: #fff;
+    width: 100%;
+    max-width: 380px;
+    padding: 36px 32px 32px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+    animation: mUp 0.22s ease;
+    font-family: inherit;
+    border: none;
+    outline: none;
+}
+
+@keyframes mUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Close ─────────────────────────────────────────────────────────────────── */
+.m-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.15s;
+}
+
+.m-close:hover {
+    color: #333;
+}
+
+/* ── Title ─────────────────────────────────────────────────────────────────── */
+.m-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0 0 24px;
+    letter-spacing: 0.2px;
+}
+
+/* ── Body ──────────────────────────────────────────────────────────────────── */
+.m-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.m-sub {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 4px;
+}
+
+/* ── Input ─────────────────────────────────────────────────────────────────── */
+.m-input {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1a1a1a;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 0;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.m-input::placeholder {
+    color: #bbb;
+}
+
+.m-input:focus {
+    border-color: #999;
+}
+
+.m-input--err {
+    border-color: #e05050 !important;
+}
+
+/* ── Button ────────────────────────────────────────────────────────────────── */
+.m-btn {
+    width: 100%;
+    padding: 11px 16px;
+    background: #1a1a1a;
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.m-btn:hover:not(:disabled) {
+    background: #333;
+}
+
+.m-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* ── Spinner ───────────────────────────────────────────────────────────────── */
+.m-spinner {
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: mSpin 0.7s linear infinite;
+    display: inline-block;
+}
+
+@keyframes mSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Links ─────────────────────────────────────────────────────────────────── */
+.m-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2px;
+}
+
+.m-link {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s;
+}
+
+.m-link:hover {
+    color: #1a1a1a;
+}
+
+/* ── Error / Waiting ───────────────────────────────────────────────────────── */
+.m-error {
+    font-size: 12px;
+    color: #e05050;
+    margin: 0;
+}
+
+.m-waiting {
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+    margin: 0;
+}
+
+/* ── Code box ──────────────────────────────────────────────────────────────── */
+.m-code-box {
+    border: 1px solid #e8e8e8;
+    background: #fafafa;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.m-code-box:hover {
+    border-color: #ccc;
+}
+
+.m-code {
+    font-size: 36px;
+    font-weight: 300;
+    color: #1a1a1a;
+    letter-spacing: 10px;
+    line-height: 1;
+}
+
+.m-code-hint {
+    font-size: 11px;
+    color: #bbb;
+    letter-spacing: 0.3px;
+}
+
+/* ── Steps ─────────────────────────────────────────────────────────────────── */
+.m-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.m-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: #666;
+}
+
+.m-step-n {
+    width: 20px;
+    height: 20px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #999;
+    flex-shrink: 0;
+}
+
+/* ── Success ───────────────────────────────────────────────────────────────── */
+.m-success {
+    align-items: center;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.m-success-icon {
+    width: 52px;
+    height: 52px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #1a1a1a;
+    animation: mPop 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.m-btn--admin {
+    background: #fff;
+    color: #1a1a1a;
+    border: 1px solid #d9d9d9;
+    margin-top: -4px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.m-btn--admin:hover {
+    background: #f5f5f5;
+    border-color: #bbb;
+}
+
+@keyframes mPop {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.m-success-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.m-success-phone {
+    font-size: 13px;
+    color: #999;
+    margin: 0 0 8px;
+    letter-spacing: 0.5px;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .m-box {
+        padding: 28px 20px 24px;
+    }
+
+    .m-code {
+        font-size: 30px;
+        letter-spacing: 8px;
+    }
+}

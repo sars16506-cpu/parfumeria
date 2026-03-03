@@ -1,0 +1,97 @@
+.hero {
+    position: relative;
+
+
+    padding-top: 450px;
+    padding-bottom: 370px;
+    /* padding-bottom: 559px; */
+    /* background-color: rgb(217, 156, 156); */
+}
+
+
+
+.hero__title {
+    font-size: 55px;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: rgb(175, 131, 43);
+
+}
+
+.hero__info {
+    color: rgb(55, 52, 58);
+}
+
+
+
+.hero__main {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 356px;
+    /* position: relative; */
+    /* z-index: 2; */
+}
+
+.hero__slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.hero__slides {
+    display: flex;
+    height: 100%;
+    transition: transform 0.8s ease-in-out;
+}
+
+.hero__slides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* ... avvalgi kodlaringiz ... */
+
+@media (max-width: 450px) {
+    .hero {
+        /* Mobil qurilmalarda rasm o'rtasida matn yo'qolib qolmasligi uchun paddingni kamaytiramiz */
+        padding-top: 250px;
+        padding-bottom: 200px;
+    }
+
+    .hero__main {
+        max-width: 90%; /* Matn konteyneri kengroq bo'lishi kerak */
+        padding: 0 15px;
+    }
+
+    .hero__title {
+        font-size: 32px; /* Kichikroq ekran uchun shrift hajmi */
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 15px;
+    }
+
+    .hero__info {
+        font-size: 14px; /* Ma'lumot matni o'qilishi oson bo'lishi uchun */
+        line-height: 1.5;
+    }
+
+    /* Slider mobil ekranlarda xira (overlay) bo'lib turishi uchun (ixtiyoriy) */
+    .hero__slider::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3); 
+        z-index: 1;
+    }
+}
