@@ -4,9 +4,13 @@ import x from "../../images/x.svg"
 import "./Items.css"
 import { getCart, removeFromCart } from '../../utils/cart'
 
+function formatPrice(n) {
+    return Number(n || 0).toLocaleString("ru-RU")
+}
+
 function saveCart(updated) {
     localStorage.setItem("pv_cart", JSON.stringify(updated))
-    window.dispatchEvent(new Event("cart-updated")) // уведомляем OrderButton
+    window.dispatchEvent(new Event("cart-updated"))
 }
 
 function Items() {
@@ -38,7 +42,7 @@ function Items() {
 
     function remove(product_id, ml_sizes) {
         removeFromCart(product_id, ml_sizes)
-        window.dispatchEvent(new Event("cart-updated")) // уведомляем OrderButton
+        window.dispatchEvent(new Event("cart-updated"))
         setProducts(getCart())
     }
 
@@ -67,7 +71,7 @@ function Items() {
                                 <div className="basket__order">
                                     <div className="basket__pc">
                                         <p className="basket__how-many">Цена за 1 шт.</p>
-                                        <p className='basket__money'>{el.price} {el.valute === "USD" ? "$" : "СОМ"}</p>
+                                        <p className='basket__money'>{el.price && `${formatPrice(el.price)} UZS`}</p>
                                     </div>
                                     <div className="basket__count">
                                         <div className='basket__counter'>
@@ -99,7 +103,7 @@ function Items() {
                                             </div>
                                         </div>
                                         <p className='basket__new-money'>
-                                            {el.price * el.quantity} {el.valute === "USD" ? "$" : "СОМ"}
+                                            {formatPrice(el.price * el.quantity)} UZS
                                         </p>
                                     </div>
                                 </div>

@@ -3,21 +3,21 @@ import { getCart } from "../../utils/cart";
 import { useMemo, useState, useEffect } from "react";
 import styles from "./Orderbutton.module.css";
 
-function money(n, c = "USD") {
+function money(n) {
     const num = Number(n || 0);
     try {
         return new Intl.NumberFormat("ru-RU", {
             style: "currency",
-            currency: c,
-            maximumFractionDigits: c === "UZS" ? 0 : 2,
+            currency: "UZS",
+            maximumFractionDigits: 0,
         }).format(num);
     } catch {
-        return `${num.toLocaleString()} ${c}`;
+        return `${num.toLocaleString()} UZS`;
     }
 }
 
 /* ─── Cart Summary ─────────────────────────────────────────────── */
-function CartSummary({ total, totalQuantity, currency, cart }) {
+function CartSummary({ total, totalQuantity, cart }) {
     return (
         <div className={styles.summaryCard}>
             <div className={styles.summaryHeader}>
@@ -54,7 +54,7 @@ function CartSummary({ total, totalQuantity, currency, cart }) {
                             <div className={styles.itemMeta}>
                                 <span className={styles.qtyPill}>×{item.quantity}</span>
                                 <span className={styles.itemPrice}>
-                                    {money(rowSum, item.valute || currency)}
+                                    {money(rowSum)}
                                 </span>
                             </div>
                         </div>
@@ -67,8 +67,7 @@ function CartSummary({ total, totalQuantity, currency, cart }) {
             <div className={styles.totalRow}>
                 <span className={styles.totalLabel}>Итого</span>
                 <span className={styles.totalAmount}>
-                    {money(total, currency)}{" "}
-                    <span className={styles.currency}>{currency}</span>
+                    {money(total)}
                 </span>
             </div>
         </div>
@@ -141,7 +140,6 @@ function SubmitButton({ onClick, isLoading, disabled }) {
 function OrderButton() {
     const [orderProducts, { isLoading }] = useOrderProductsMutation();
 
-    // Реактивная корзина — обновляется при любом изменении в Items.jsx
     const [cart, setCart] = useState(getCart);
 
     useEffect(() => {
@@ -153,17 +151,13 @@ function OrderButton() {
     const verified = localStorage.getItem("pv_verified") === "true";
     const phone = verified ? localStorage.getItem("pv_phone") || "" : "";
 
-    const { total, totalQuantity, currency } = useMemo(() => {
+    const { total, totalQuantity } = useMemo(() => {
         const totalSum = cart.reduce(
             (sum, i) => sum + Number(i.price) * Number(i.quantity),
             0
         );
         const qty = cart.reduce((sum, i) => sum + Number(i.quantity), 0);
-        return {
-            total: totalSum,
-            totalQuantity: qty,
-            currency: cart[0]?.valute || "USD",
-        };
+        return { total: totalSum, totalQuantity: qty };
     }, [cart]);
 
     const handleOrder = async () => {
@@ -175,7 +169,7 @@ function OrderButton() {
                 customer_phone: phone,
                 items: cart,
                 total,
-                valute: currency,
+                valute: "UZS",
                 notified: false,
             }).unwrap();
 
@@ -196,7 +190,6 @@ function OrderButton() {
                 <CartSummary
                     total={total}
                     totalQuantity={totalQuantity}
-                    currency={currency}
                     cart={cart}
                 />
             ) : (

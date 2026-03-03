@@ -2,8 +2,10 @@
     "header": {
         "catalog": "Catalog",
         "new": "New Arrivals",
-        "brands": "Contacts",
-        "sale": "Sales"
+        "brands": "Brands",
+        "sale": "Sales",
+        "cart": "Cart",
+        "profile": "Profile"
     },
     "footer": {
         "brand_desc": "Your guide to the world of high perfumery. We believe that fragrance is not just a scent, but your invisible business card and a way of self-expression.",
@@ -195,7 +197,8 @@
             "release": "Release",
             "actions": "Actions",
             "noProducts": "No products found.",
-            "old": "Old: {{price}}"
+            "old": "Old: {{price}}",
+            "moreVariants": "+{{count}} more"
         },
         "actions": {
             "edit": "Edit",
@@ -213,7 +216,13 @@
         "info": "Info",
         "noInfo": "-",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "pricesTitle": "Prices",
+        "noPrices": "No prices added yet.",
+        "colMl": "ML",
+        "colPrice": "Price",
+        "colOriginal": "Original",
+        "colDiscount": "Discount"
     },
     "formModal": {
         "addTitle": "Add product",
@@ -223,7 +232,7 @@
         "title": "Title",
         "brand": "Brand",
         "gender": "Gender",
-        "valute": "Valute",
+        "valute": "Currency",
         "mlSizes": "ML sizes",
         "mlPlaceholder": "e.g. 50",
         "addMl": "+ Add ML",
@@ -244,7 +253,14 @@
         "addBtn": "Add",
         "saveBtn": "Save",
         "adding": "Adding...",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "pricesLabel": "Prices (per ML size)",
+        "mlSize": "ML Size",
+        "originalPrice": "Original Price",
+        "finalPrice": "Final Price",
+        "addPriceEntry": "+ Add Price Entry",
+        "noPriceEntries": "No price entries yet. Add one above.",
+        "invalidMlSize": "Please enter a valid ML size."
     },
     "deleteModal": {
         "title": "Delete product?",

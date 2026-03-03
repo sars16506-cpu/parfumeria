@@ -9,52 +9,37 @@ import Products from './pages/products/Products';
 import PrivateRoute from './PrivateRoute';
 // import { useGetProductsMutation } from './app/services/authApi';
 
+import SeoRouter from "./ui/SeoRouter";
+
 function App() {
-  // const { data: phoneNumbers } = usePhoneNumberQuery()
-
-
-  // console.log(data);
-
-  const phoneNumber = localStorage.getItem("pv_phone" || null)
-
-  // console.log(phoneNumbers);
+  const phoneNumber = localStorage.getItem("pv_phone") || null;
 
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={
-            // <PrivateRoute phone={phoneNumber}>
-
-            <Home />
-            // </PrivateRoute>
-
-          } />
-
-
-          <Route path='/adm' element={
+    <BrowserRouter>
+      <SeoRouter />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/adm"
+          element={
             <PrivateRoute phone={phoneNumber}>
               <Admin />
             </PrivateRoute>
-          } />
-          <Route path='/details/:id' element={
-            <ProductDetail />
-          } />
-          <Route path='/basket' element={
+          }
+        />
+        <Route path="/details/:id" element={<ProductDetail />} />
+        <Route
+          path="/basket"
+          element={
             <PrivateRoute phone={phoneNumber}>
               <Basket />
             </PrivateRoute>
-          } />
-          <Route path='/products' element={
-            <Products />
-          } />
-        </Routes>
-
-      </BrowserRouter>
-
-
-    </div>
-  )
+          }
+        />
+        <Route path="/products" element={<Products />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App

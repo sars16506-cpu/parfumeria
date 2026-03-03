@@ -2,8 +2,10 @@
     "header": {
         "catalog": "Katalog",
         "new": "Yangiliklar",
-        "brands": "Kontaktlar",
-        "sale": "Aksiyalar"
+        "brands": "Brendlar",
+        "sale": "Aksiyalar",
+        "cart": "Savat",
+        "profile": "Profil"
     },
     "footer": {
         "brand_desc": "Yuqori parfyumeriya olamidagi yo'lboshchingiz. Biz ishonamizki, atir shunchaki hid emas, balki sizning ko'rinmas tashrif qog'ozingizdir.",
@@ -173,10 +175,10 @@
         "error": "Xatolik",
         "retry": "Qayta urin",
         "refresh": "Yangilash",
-        "add": "+ Qo‘shish",
-        "total": "Jami: {{total}} • Ko‘rsatilmoqda: {{showing}}",
-        "searchPlaceholder": "Title / brand bo‘yicha qidirish...",
-        "filterGender": "Gender bo‘yicha filter",
+        "add": "+ Qo'shish",
+        "total": "Jami: {{total}} • Ko'rsatilmoqda: {{showing}}",
+        "searchPlaceholder": "Title / brand bo'yicha qidirish...",
+        "filterGender": "Gender bo'yicha filter",
         "gender": {
             "all": "Hammasi",
             "men": "erkaklar",
@@ -195,11 +197,12 @@
             "release": "Sana",
             "actions": "Amallar",
             "noProducts": "Mahsulot topilmadi.",
-            "old": "Old: {{price}}"
+            "old": "Old: {{price}}",
+            "moreVariants": "+{{count}} ta ko'proq"
         },
         "actions": {
             "edit": "Tahrirlash",
-            "delete": "O‘chirish"
+            "delete": "O'chirish"
         }
     },
     "viewModal": {
@@ -208,15 +211,21 @@
         "oldMoney": "Eski narx",
         "discount": "Chegirma",
         "itemLeft": "Qoldiq",
-        "mlSizes": "ML o‘lchamlar",
+        "mlSizes": "ML o'lchamlar",
         "releaseDate": "Sana",
-        "info": "Ma’lumot",
+        "info": "Ma'lumot",
         "noInfo": "-",
         "edit": "Tahrirlash",
-        "delete": "O‘chirish"
+        "delete": "O'chirish",
+        "pricesTitle": "Narxlar",
+        "noPrices": "Hali narx qo'shilmagan.",
+        "colMl": "ML",
+        "colPrice": "Narx",
+        "colOriginal": "Asl narx",
+        "colDiscount": "Chegirma"
     },
     "formModal": {
-        "addTitle": "Mahsulot qo‘shish",
+        "addTitle": "Mahsulot qo'shish",
         "editTitle": "Mahsulotni tahrirlash",
         "subtitle": "Kompyuterdan 1–3 ta rasm yuklang",
         "close": "Yopish",
@@ -224,44 +233,51 @@
         "brand": "Brend",
         "gender": "Gender",
         "valute": "Valyuta",
-        "mlSizes": "ML o‘lchamlar",
+        "mlSizes": "ML o'lchamlar",
         "mlPlaceholder": "masalan 50",
-        "addMl": "+ ML qo‘shish",
-        "noMlYet": "Hali ML o‘lcham qo‘shilmagan.",
+        "addMl": "+ ML qo'shish",
+        "noMlYet": "Hali ML o'lcham qo'shilmagan.",
         "priceOriginal": "Narx (asl)",
         "finalSavedPrice": "Saqlanadigan yakuniy narx:",
         "discountPercent": "Chegirma (%)",
         "itemLeft": "Qoldiq",
-        "unknown": "Noma’lum",
+        "unknown": "Noma'lum",
         "releaseDate": "Sana",
         "releasePlaceholder": "YYYY-MM-DD",
-        "info": "Ma’lumot",
+        "info": "Ma'lumot",
         "images": "Rasmlar (1–3)",
-        "uploadHint": "PC’dan rasm tanlang (Tavsiya: 220x190px)",
+        "uploadHint": "PC'dan rasm tanlang (Tavsiya: 220x190px)",
         "uploading": "Yuklanmoqda...",
-        "removeImage": "{{n}}-rasmni o‘chirish",
+        "removeImage": "{{n}}-rasmni o'chirish",
         "cancel": "Bekor",
-        "addBtn": "Qo‘shish",
+        "addBtn": "Qo'shish",
         "saveBtn": "Saqlash",
-        "adding": "Qo‘shilmoqda...",
-        "saving": "Saqlanmoqda..."
+        "adding": "Qo'shilmoqda...",
+        "saving": "Saqlanmoqda...",
+        "pricesLabel": "Narxlar (ML o'lchami bo'yicha)",
+        "mlSize": "ML O'lchami",
+        "originalPrice": "Asl narx",
+        "finalPrice": "Yakuniy narx",
+        "addPriceEntry": "+ Narx qo'shish",
+        "noPriceEntries": "Hali narx qo'shilmagan. Yuqorida qo'shing.",
+        "invalidMlSize": "Iltimos, to'g'ri ML o'lchamini kiriting."
     },
     "deleteModal": {
-        "title": "Mahsulot o‘chirilsinmi?",
-        "subtitle": "Bu amalni ortga qaytarib bo‘lmaydi.",
+        "title": "Mahsulot o'chirilsinmi?",
+        "subtitle": "Bu amalni ortga qaytarib bo'lmaydi.",
         "close": "Yopish",
         "headsUp": "Eslatma:",
-        "warnText": "mahsulot bazadan butunlay o‘chadi.",
+        "warnText": "mahsulot bazadan butunlay o'chadi.",
         "cancel": "Bekor",
-        "confirm": "Ha, o‘chir",
-        "deleting": "O‘chirilmoqda..."
+        "confirm": "Ha, o'chir",
+        "deleting": "O'chirilmoqda..."
     },
     "misc": {
         "dash": "—",
         "unknownProduct": "Mahsulot",
         "untitled": "Nomsiz",
-        "noImages": "Rasm yo‘q",
+        "noImages": "Rasm yo'q",
         "uploadError": "Yuklashda xatolik",
-        "validationTitleBrand": "Title va brand bo‘sh bo‘lmasin."
+        "validationTitleBrand": "Title va brand bo'sh bo'lmasin."
     }
 }

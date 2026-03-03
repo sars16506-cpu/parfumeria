@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 import { usePhoneNumberQuery } from "./app/services/authApi"
 
 // PrivateRoute.jsx

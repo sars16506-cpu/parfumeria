@@ -21,7 +21,6 @@ const EMPTY = {
   title: "",
   brand: "",
   gender: "unisex",
-  valute: "USD",
   info: "",
   release_date: "",
   images: [],
@@ -154,15 +153,15 @@ export default function Admin() {
 
   // ── PRICE ENTRY HELPERS ──
   const addPriceEntry = () => {
-    const ml = parseInt(priceEntry.ml_sizes, 10); // ✅ integer
+    const ml = parseInt(priceEntry.ml_sizes, 10);
     if (!Number.isFinite(ml) || ml <= 0) {
-      alert("Please enter a valid ml size.");
+      alert(t("formModal.invalidMlSize"));
       return;
     }
     const entry = {
       price: calcDiscountedPrice(priceEntry.old_money, priceEntry.discount),
-      old_money: parseFloat(priceEntry.old_money || 0),  // ✅ float
-      discount: parseInt(priceEntry.discount || 0, 10),  // ✅ integer
+      old_money: parseFloat(priceEntry.old_money || 0),
+      discount: parseInt(priceEntry.discount || 0, 10),
       ml_sizes: ml,
     };
     setDraft((prev) => ({
@@ -224,9 +223,18 @@ export default function Admin() {
       return;
     }
 
-    // ✅ FIX: sanitize every price entry — cast to correct types, strip item_left
+    // Validate year if provided
+    const yearVal = draft.release_date?.trim();
+    if (yearVal) {
+      const y = parseInt(yearVal, 10);
+      if (!/^\d{4}$/.test(yearVal) || y < 1900 || y > 2100) {
+        alert(t("formModal.invalidYear") || "Please enter a valid 4-digit year.");
+        return;
+      }
+    }
+
     const sanitizedPrices = (Array.isArray(draft.prices) ? draft.prices : []).map(
-      ({ item_left, ...entry }) => ({         // ← removes item_left
+      ({ item_left, ...entry }) => ({
         price: parseFloat(entry.price ?? 0),
         old_money: parseFloat(entry.old_money ?? 0),
         discount: parseInt(entry.discount ?? 0, 10),
@@ -238,9 +246,8 @@ export default function Admin() {
       title: draft.title.trim(),
       brand: draft.brand.trim(),
       gender: draft.gender,
-      valute: draft.valute ?? "USD",
       info: draft.info?.trim() || null,
-      release_date: draft.release_date?.trim() || null,
+      release_date: yearVal || null,
       images: Array.isArray(draft.images) ? draft.images : [],
       prices: sanitizedPrices,
     };
@@ -365,8 +372,8 @@ export default function Admin() {
                           loading="lazy"
                           decoding="async"
                           onError={(e) =>
-                            (e.currentTarget.src =
-                              "https://via.placeholder.com/46")
+                          (e.currentTarget.src =
+                            "https://via.placeholder.com/46")
                           }
                         />
                         <div>
@@ -391,12 +398,11 @@ export default function Admin() {
                       {firstPrice ? (
                         <>
                           <span className="price-main">
-                            {Number(firstPrice.price ?? 0).toFixed(2)}{" "}
-                            {p.valute ?? "USD"}
+                            {Number(firstPrice.price ?? 0).toFixed(2)} UZS
                           </span>
                           {Number(firstPrice.old_money ?? 0) > 0 &&
                             Number(firstPrice.old_money) !==
-                              Number(firstPrice.price) && (
+                            Number(firstPrice.price) && (
                               <div className="price-old">
                                 {t("admin.table.old", {
                                   price: Number(firstPrice.old_money).toFixed(2),
@@ -408,7 +414,7 @@ export default function Admin() {
                               className="muted"
                               style={{ fontSize: 11, marginTop: 2 }}
                             >
-                              +{prices.length - 1} more
+                              {t("admin.table.moreVariants", { count: prices.length - 1 })}
                             </div>
                           )}
                         </>
@@ -429,7 +435,9 @@ export default function Admin() {
                           <span className="muted">{t("misc.dash")}</span>
                         )}
                         {prices.length > 3 && (
-                          <span className="ml-more">+{prices.length - 3}</span>
+                          <span className="ml-more">
+                            {t("admin.table.moreVariants", { count: prices.length - 3 })}
+                          </span>
                         )}
                       </span>
                     </td>
@@ -438,7 +446,7 @@ export default function Admin() {
                       className="col-release"
                       data-label={t("admin.table.release")}
                     >
-                      {p.release_date || "—"}
+                      {p.release_date || t("misc.dash")}
                     </td>
 
                     <td className="actions">
@@ -506,17 +514,17 @@ export default function Admin() {
 
                 <div className="details">
                   <div className="section">
-                    <h4>Prices</h4>
+                    <h4>{t("viewModal.pricesTitle")}</h4>
                     {Array.isArray(selected.prices) &&
-                    selected.prices.length > 0 ? (
+                      selected.prices.length > 0 ? (
                       <div className="prices-table-wrap">
                         <table className="prices-table">
                           <thead>
                             <tr>
-                              <th>ML</th>
-                              <th>Price</th>
-                              <th>Original</th>
-                              <th>Discount</th>
+                              <th>{t("viewModal.colMl")}</th>
+                              <th>{t("viewModal.colPrice")}</th>
+                              <th>{t("viewModal.colOriginal")}</th>
+                              <th>{t("viewModal.colDiscount")}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -529,8 +537,7 @@ export default function Admin() {
                                 </td>
                                 <td>
                                   <b>
-                                    {Number(entry.price ?? 0).toFixed(2)}{" "}
-                                    {selected.valute ?? "USD"}
+                                    {Number(entry.price ?? 0).toFixed(2)} UZS
                                   </b>
                                 </td>
                                 <td>
@@ -539,7 +546,7 @@ export default function Admin() {
                                       {Number(entry.old_money).toFixed(2)}
                                     </span>
                                   ) : (
-                                    "—"
+                                    t("misc.dash")
                                   )}
                                 </td>
                                 <td>
@@ -553,7 +560,7 @@ export default function Admin() {
                                       -{Number(entry.discount)}%
                                     </span>
                                   ) : (
-                                    "—"
+                                    t("misc.dash")
                                   )}
                                 </td>
                               </tr>
@@ -563,14 +570,14 @@ export default function Admin() {
                       </div>
                     ) : (
                       <p className="muted" style={{ fontSize: 13 }}>
-                        No prices added yet.
+                        {t("viewModal.noPrices")}
                       </p>
                     )}
                   </div>
 
                   <div className="section" style={{ marginTop: 20 }}>
-                    <h4>{t("viewModal.releaseDate") || "Release Date"}</h4>
-                    <p className="text">{selected.release_date || "—"}</p>
+                    <h4>{t("viewModal.releaseDate")}</h4>
+                    <p className="text">{selected.release_date || t("misc.dash")}</p>
                   </div>
 
                   <div className="section" style={{ marginTop: 16 }}>
@@ -664,30 +671,14 @@ export default function Admin() {
                   </select>
                 </div>
 
-                <div className="form-row">
-                  <label htmlFor="product-valute">
-                    {t("formModal.valute")}
-                  </label>
-                  <select
-                    id="product-valute"
-                    value={draft.valute ?? "USD"}
-                    onChange={(e) =>
-                      setDraft({ ...draft, valute: e.target.value })
-                    }
-                  >
-                    <option value="USD">USD ($)</option>
-                    <option value="UZS">UZS (sum)</option>
-                  </select>
-                </div>
-
                 {/* ── PRICES ARRAY SECTION ── */}
                 <div className="form-row">
-                  <label>Prices (per ML size)</label>
+                  <label>{t("formModal.pricesLabel")}</label>
 
                   <div className="price-entry-builder">
                     <div className="price-entry-grid">
                       <div className="price-entry-field">
-                        <span className="price-entry-label">ML Size</span>
+                        <span className="price-entry-label">{t("formModal.mlSize")}</span>
                         <input
                           type="number"
                           inputMode="numeric"
@@ -707,7 +698,7 @@ export default function Admin() {
                       </div>
                       <div className="price-entry-field">
                         <span className="price-entry-label">
-                          Original Price
+                          {t("formModal.originalPrice")}
                         </span>
                         <input
                           type="number"
@@ -727,7 +718,7 @@ export default function Admin() {
                         />
                       </div>
                       <div className="price-entry-field">
-                        <span className="price-entry-label">Discount %</span>
+                        <span className="price-entry-label">{t("formModal.discountPercent")}</span>
                         <input
                           type="number"
                           placeholder="0"
@@ -745,7 +736,7 @@ export default function Admin() {
                         />
                       </div>
                       <div className="price-entry-field price-entry-preview">
-                        <span className="price-entry-label">Final Price</span>
+                        <span className="price-entry-label">{t("formModal.finalPrice")}</span>
                         <span className="price-final-preview">
                           {calcDiscountedPrice(
                             priceEntry.old_money,
@@ -759,7 +750,7 @@ export default function Admin() {
                       className="btn primary price-add-btn"
                       onClick={addPriceEntry}
                     >
-                      + Add Price Entry
+                      {t("formModal.addPriceEntry")}
                     </button>
                   </div>
 
@@ -770,12 +761,11 @@ export default function Admin() {
                           <span className="ml-pill">{entry.ml_sizes}ml</span>
                           <div className="price-entry-chip-info">
                             <span className="price-entry-chip-final">
-                              {Number(entry.price).toFixed(2)}{" "}
-                              {draft.valute ?? "USD"}
+                              {Number(entry.price).toFixed(2)} UZS
                             </span>
                             {Number(entry.old_money) > 0 &&
                               Number(entry.old_money) !==
-                                Number(entry.price) && (
+                              Number(entry.price) && (
                                 <span className="price-entry-chip-old">
                                   {Number(entry.old_money).toFixed(2)}
                                 </span>
@@ -790,7 +780,7 @@ export default function Admin() {
                             type="button"
                             className="ml-x"
                             onClick={() => removePriceEntry(idx)}
-                            aria-label={`Remove price entry ${idx + 1}`}
+                            aria-label={`${t("formModal.removeImage", { n: idx + 1 })}`}
                           >
                             ✕
                           </button>
@@ -798,23 +788,23 @@ export default function Admin() {
                       ))
                     ) : (
                       <span className="muted" style={{ fontSize: 13 }}>
-                        No price entries yet. Add one above.
+                        {t("formModal.noPriceEntries")}
                       </span>
                     )}
                   </div>
                 </div>
-
+                {/* ── RELEASE DATE ── */}
                 <div className="form-row">
                   <label htmlFor="product-release">
                     {t("formModal.releaseDate")}
                   </label>
                   <input
                     id="product-release"
+                    type="date"
                     value={draft.release_date}
                     onChange={(e) =>
                       setDraft({ ...draft, release_date: e.target.value })
                     }
-                    placeholder={t("formModal.releasePlaceholder")}
                   />
                 </div>
 
@@ -941,7 +931,7 @@ export default function Admin() {
                     {deleteTarget.title || t("misc.untitled")}
                   </div>
                   <div className="delete-small">
-                    {deleteTarget.brand || "—"} •{" "}
+                    {deleteTarget.brand || t("misc.dash")} •{" "}
                     <span className="badge">
                       {deleteTarget.gender || "unisex"}
                     </span>
@@ -996,7 +986,6 @@ function productToDraft(p) {
     title: p.title ?? "",
     brand: p.brand ?? "",
     gender: p.gender ?? "unisex",
-    valute: p.valute ?? "USD",
     info: p.info ?? "",
     release_date: p.release_date ?? "",
     images: Array.isArray(p.images) ? p.images : [],
