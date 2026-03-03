@@ -1,6 +1,6 @@
 import React from 'react'
 import { usePhoneNumberQuery } from './app/services/authApi';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {  HashRouter as BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Admin from './pages/admin/Admin';
 import ProductDetail from './pages/productDetails/ProductDetails';
