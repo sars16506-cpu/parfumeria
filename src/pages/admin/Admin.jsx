@@ -10,6 +10,9 @@ import {
 import { supabase } from "../../app/supabaseClient";
 import { useTranslation } from "react-i18next";
 
+const PLACEHOLDER =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23bbb' font-size='12' font-family='sans-serif'%3ENo image%3C/text%3E%3C/svg%3E";
+
 const EMPTY_PRICE_ENTRY = {
   price: 0,
   old_money: 0,
@@ -88,14 +91,8 @@ export default function Admin() {
     });
   }, [products, q, gender]);
 
-  const openViewModal = (p) => {
-    setSelected(p);
-    setOpenView(true);
-  };
-  const closeViewModal = () => {
-    setOpenView(false);
-    setSelected(null);
-  };
+  const openViewModal = (p) => { setSelected(p); setOpenView(true); };
+  const closeViewModal = () => { setOpenView(false); setSelected(null); };
 
   const openAddModal = () => {
     setMode("add");
@@ -164,18 +161,12 @@ export default function Admin() {
       discount: parseInt(priceEntry.discount || 0, 10),
       ml_sizes: ml,
     };
-    setDraft((prev) => ({
-      ...prev,
-      prices: [...(prev.prices || []), entry],
-    }));
+    setDraft((prev) => ({ ...prev, prices: [...(prev.prices || []), entry] }));
     setPriceEntry(EMPTY_PRICE_ENTRY);
   };
 
   const removePriceEntry = (idx) => {
-    setDraft((prev) => ({
-      ...prev,
-      prices: (prev.prices || []).filter((_, i) => i !== idx),
-    }));
+    setDraft((prev) => ({ ...prev, prices: (prev.prices || []).filter((_, i) => i !== idx) }));
   };
 
   const onPickImages = async (e) => {
@@ -192,15 +183,10 @@ export default function Admin() {
           .from("product-images")
           .upload(path, file, { upsert: false });
         if (upErr) throw upErr;
-        const { data: pub } = supabase.storage
-          .from("product-images")
-          .getPublicUrl(data.path);
+        const { data: pub } = supabase.storage.from("product-images").getPublicUrl(data.path);
         urls.push(pub.publicUrl);
       }
-      setDraft((prev) => ({
-        ...prev,
-        images: [...(prev.images || []), ...urls].slice(0, 3),
-      }));
+      setDraft((prev) => ({ ...prev, images: [...(prev.images || []), ...urls].slice(0, 3) }));
     } catch (err) {
       alert(err?.message || t("misc.uploadError"));
     } finally {
@@ -210,10 +196,7 @@ export default function Admin() {
   };
 
   const removeImage = (idx) => {
-    setDraft((prev) => ({
-      ...prev,
-      images: (prev.images || []).filter((_, i) => i !== idx),
-    }));
+    setDraft((prev) => ({ ...prev, images: (prev.images || []).filter((_, i) => i !== idx) }));
   };
 
   const onSubmit = async (e) => {
@@ -223,12 +206,12 @@ export default function Admin() {
       return;
     }
 
-    // Validate year if provided
+    // release_date: type="date" returns YYYY-MM-DD, extract year for validation
     const yearVal = draft.release_date?.trim();
     if (yearVal) {
-      const y = parseInt(yearVal, 10);
-      if (!/^\d{4}$/.test(yearVal) || y < 1900 || y > 2100) {
-        alert(t("formModal.invalidYear") || "Please enter a valid 4-digit year.");
+      const y = parseInt(yearVal.slice(0, 4), 10);
+      if (isNaN(y) || y < 1900 || y > 2100) {
+        alert(t("formModal.invalidYear") || "Please enter a valid year.");
         return;
       }
     }
@@ -272,14 +255,10 @@ export default function Admin() {
             <p className="muted">{t("admin.error")}</p>
           </div>
           <div className="header-actions">
-            <button className="btn" onClick={refetch}>
-              {t("admin.retry")}
-            </button>
+            <button className="btn" onClick={refetch}>{t("admin.retry")}</button>
           </div>
         </div>
-        <p className="error">
-          {error?.status} {error?.data?.message || t("admin.error")}
-        </p>
+        <p className="error">{error?.status} {error?.data?.message || t("admin.error")}</p>
       </div>
     );
 
@@ -290,13 +269,9 @@ export default function Admin() {
         <div>
           <h2>{t("admin.title")}</h2>
           <p className="muted">
-            {t("admin.total", {
-              total: products.length,
-              showing: filtered.length,
-            })}
+            {t("admin.total", { total: products.length, showing: filtered.length })}
           </p>
         </div>
-
         <div className="header-actions">
           <div className="lang-wrap" role="group" aria-label="Change language">
             {["en", "uz", "ru"].map((l) => (
@@ -311,12 +286,8 @@ export default function Admin() {
               </button>
             ))}
           </div>
-          <button className="btn" onClick={refetch}>
-            {t("admin.refresh")}
-          </button>
-          <button className="btn primary" onClick={openAddModal}>
-            {t("admin.add")}
-          </button>
+          <button className="btn" onClick={refetch}>{t("admin.refresh")}</button>
+          <button className="btn primary" onClick={openAddModal}>{t("admin.add")}</button>
         </div>
       </div>
 
@@ -351,17 +322,12 @@ export default function Admin() {
                 <th className="th-actions">{t("admin.table.actions")}</th>
               </tr>
             </thead>
-
             <tbody>
               {filtered.map((p) => {
                 const prices = Array.isArray(p.prices) ? p.prices : [];
                 const firstPrice = prices[0];
                 return (
-                  <tr
-                    key={p.id}
-                    className="row"
-                    onClick={(e) => onRowClick(e, p)}
-                  >
+                  <tr key={p.id} className="row" onClick={(e) => onRowClick(e, p)}>
                     <td className="product-cell-td">
                       <div className="product-cell">
                         <img
@@ -371,29 +337,18 @@ export default function Admin() {
                           height={46}
                           loading="lazy"
                           decoding="async"
-                          onError={(e) =>
-                          (e.currentTarget.src =
-                            "https://via.placeholder.com/46")
-                          }
+                          onError={(e) => { e.currentTarget.src = PLACEHOLDER; }}
                         />
                         <div>
-                          <strong className="product-title" title={p.title}>
-                            {p.title}
-                          </strong>
+                          <strong className="product-title" title={p.title}>{p.title}</strong>
                           <small>{p.id}</small>
                         </div>
                       </div>
                     </td>
-
                     <td data-label={t("admin.table.brand")}>{p.brand}</td>
-
-                    <td
-                      className="col-gender"
-                      data-label={t("admin.table.gender")}
-                    >
+                    <td className="col-gender" data-label={t("admin.table.gender")}>
                       <span className="badge">{p.gender}</span>
                     </td>
-
                     <td data-label={t("admin.table.price")}>
                       {firstPrice ? (
                         <>
@@ -401,19 +356,13 @@ export default function Admin() {
                             {Number(firstPrice.price ?? 0).toFixed(2)} UZS
                           </span>
                           {Number(firstPrice.old_money ?? 0) > 0 &&
-                            Number(firstPrice.old_money) !==
-                            Number(firstPrice.price) && (
+                            Number(firstPrice.old_money) !== Number(firstPrice.price) && (
                               <div className="price-old">
-                                {t("admin.table.old", {
-                                  price: Number(firstPrice.old_money).toFixed(2),
-                                })}
+                                {t("admin.table.old", { price: Number(firstPrice.old_money).toFixed(2) })}
                               </div>
                             )}
                           {prices.length > 1 && (
-                            <div
-                              className="muted"
-                              style={{ fontSize: 11, marginTop: 2 }}
-                            >
+                            <div className="muted" style={{ fontSize: 11, marginTop: 2 }}>
                               {t("admin.table.moreVariants", { count: prices.length - 1 })}
                             </div>
                           )}
@@ -422,14 +371,11 @@ export default function Admin() {
                         <span className="muted">{t("misc.dash")}</span>
                       )}
                     </td>
-
                     <td className="col-ml" data-label={t("admin.table.ml")}>
                       <span className="ml-inline">
                         {prices.length > 0 ? (
                           prices.slice(0, 3).map((entry, i) => (
-                            <span key={i} className="ml-pill">
-                              {entry.ml_sizes}ml
-                            </span>
+                            <span key={i} className="ml-pill">{entry.ml_sizes}ml</span>
                           ))
                         ) : (
                           <span className="muted">{t("misc.dash")}</span>
@@ -441,21 +387,13 @@ export default function Admin() {
                         )}
                       </span>
                     </td>
-
-                    <td
-                      className="col-release"
-                      data-label={t("admin.table.release")}
-                    >
+                    <td className="col-release" data-label={t("admin.table.release")}>
                       {p.release_date || t("misc.dash")}
                     </td>
-
                     <td className="actions">
                       <button
                         className="btn ghost"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openEditModal(p);
-                        }}
+                        onClick={(e) => { e.stopPropagation(); openEditModal(p); }}
                       >
                         {t("admin.actions.edit")}
                       </button>
@@ -470,14 +408,9 @@ export default function Admin() {
                   </tr>
                 );
               })}
-
               {filtered.length === 0 && (
                 <tr>
-                  <td
-                    colSpan="7"
-                    style={{ textAlign: "center", padding: "32px 16px" }}
-                    className="muted"
-                  >
+                  <td colSpan="7" style={{ textAlign: "center", padding: "32px 16px" }} className="muted">
                     {t("admin.table.noProducts")}
                   </td>
                 </tr>
@@ -495,28 +428,18 @@ export default function Admin() {
               <div>
                 <h3 className="modal-h">{selected.title}</h3>
                 <p className="muted">
-                  {selected.brand} •{" "}
-                  <span className="badge">{selected.gender}</span>
+                  {selected.brand} • <span className="badge">{selected.gender}</span>
                 </p>
               </div>
-              <button className="icon-btn" onClick={closeViewModal}>
-                ✕
-              </button>
+              <button className="icon-btn" onClick={closeViewModal}>✕</button>
             </div>
-
             <div className="modal-body">
               <div className="modal-grid">
-                <Gallery
-                  images={selected.images}
-                  title={selected.title}
-                  t={t}
-                />
-
+                <Gallery images={selected.images} title={selected.title} t={t} />
                 <div className="details">
                   <div className="section">
                     <h4>{t("viewModal.pricesTitle")}</h4>
-                    {Array.isArray(selected.prices) &&
-                      selected.prices.length > 0 ? (
+                    {Array.isArray(selected.prices) && selected.prices.length > 0 ? (
                       <div className="prices-table-wrap">
                         <table className="prices-table">
                           <thead>
@@ -530,38 +453,19 @@ export default function Admin() {
                           <tbody>
                             {selected.prices.map((entry, i) => (
                               <tr key={i}>
-                                <td>
-                                  <span className="ml-pill">
-                                    {entry.ml_sizes}ml
-                                  </span>
-                                </td>
-                                <td>
-                                  <b>
-                                    {Number(entry.price ?? 0).toFixed(2)} UZS
-                                  </b>
-                                </td>
+                                <td><span className="ml-pill">{entry.ml_sizes}ml</span></td>
+                                <td><b>{Number(entry.price ?? 0).toFixed(2)} UZS</b></td>
                                 <td>
                                   {Number(entry.old_money ?? 0) > 0 ? (
-                                    <span className="price-old">
-                                      {Number(entry.old_money).toFixed(2)}
-                                    </span>
-                                  ) : (
-                                    t("misc.dash")
-                                  )}
+                                    <span className="price-old">{Number(entry.old_money).toFixed(2)}</span>
+                                  ) : t("misc.dash")}
                                 </td>
                                 <td>
                                   {Number(entry.discount ?? 0) > 0 ? (
-                                    <span
-                                      style={{
-                                        color: "var(--danger)",
-                                        fontWeight: 700,
-                                      }}
-                                    >
+                                    <span style={{ color: "var(--danger)", fontWeight: 700 }}>
                                       -{Number(entry.discount)}%
                                     </span>
-                                  ) : (
-                                    t("misc.dash")
-                                  )}
+                                  ) : t("misc.dash")}
                                 </td>
                               </tr>
                             ))}
@@ -569,34 +473,24 @@ export default function Admin() {
                         </table>
                       </div>
                     ) : (
-                      <p className="muted" style={{ fontSize: 13 }}>
-                        {t("viewModal.noPrices")}
-                      </p>
+                      <p className="muted" style={{ fontSize: 13 }}>{t("viewModal.noPrices")}</p>
                     )}
                   </div>
-
                   <div className="section" style={{ marginTop: 20 }}>
                     <h4>{t("viewModal.releaseDate")}</h4>
                     <p className="text">{selected.release_date || t("misc.dash")}</p>
                   </div>
-
                   <div className="section" style={{ marginTop: 16 }}>
                     <h4>{t("viewModal.info")}</h4>
-                    <p className="text">
-                      {selected.info || t("viewModal.noInfo")}
-                    </p>
+                    <p className="text">{selected.info || t("viewModal.noInfo")}</p>
                   </div>
                 </div>
               </div>
             </div>
-
             <div className="modal-actions">
               <button
                 className="btn ghost"
-                onClick={() => {
-                  closeViewModal();
-                  openEditModal(selected);
-                }}
+                onClick={() => { closeViewModal(); openEditModal(selected); }}
               >
                 {t("viewModal.edit")}
               </button>
@@ -619,51 +513,41 @@ export default function Admin() {
             <div className="modal-top">
               <div>
                 <h3 className="modal-h">
-                  {mode === "add"
-                    ? t("formModal.addTitle")
-                    : t("formModal.editTitle")}
+                  {mode === "add" ? t("formModal.addTitle") : t("formModal.editTitle")}
                 </h3>
                 <p className="muted">{t("formModal.subtitle")}</p>
               </div>
-              <button className="icon-btn" onClick={closeFormModal}>
-                ✕
-              </button>
+              <button className="icon-btn" onClick={closeFormModal}>✕</button>
             </div>
-
             <form className="modal-body" onSubmit={onSubmit}>
               <div className="form-grid">
+
                 <div className="form-row">
-                  <label htmlFor="product-title">{t("formModal.title")}</label>
+                  <label htmlFor="product-title">{t("formModal.title")} *</label>
                   <input
                     id="product-title"
+                    required
                     value={draft.title}
-                    onChange={(e) =>
-                      setDraft({ ...draft, title: e.target.value })
-                    }
+                    onChange={(e) => setDraft({ ...draft, title: e.target.value })}
                   />
                 </div>
 
                 <div className="form-row">
-                  <label htmlFor="product-brand">{t("formModal.brand")}</label>
+                  <label htmlFor="product-brand">{t("formModal.brand")} *</label>
                   <input
                     id="product-brand"
+                    required
                     value={draft.brand}
-                    onChange={(e) =>
-                      setDraft({ ...draft, brand: e.target.value })
-                    }
+                    onChange={(e) => setDraft({ ...draft, brand: e.target.value })}
                   />
                 </div>
 
                 <div className="form-row">
-                  <label htmlFor="product-gender">
-                    {t("formModal.gender")}
-                  </label>
+                  <label htmlFor="product-gender">{t("formModal.gender")}</label>
                   <select
                     id="product-gender"
                     value={draft.gender}
-                    onChange={(e) =>
-                      setDraft({ ...draft, gender: e.target.value })
-                    }
+                    onChange={(e) => setDraft({ ...draft, gender: e.target.value })}
                   >
                     <option value="men">{t("admin.gender.men")}</option>
                     <option value="women">{t("admin.gender.women")}</option>
@@ -674,7 +558,6 @@ export default function Admin() {
                 {/* ── PRICES ARRAY SECTION ── */}
                 <div className="form-row">
                   <label>{t("formModal.pricesLabel")}</label>
-
                   <div className="price-entry-builder">
                     <div className="price-entry-grid">
                       <div className="price-entry-field">
@@ -684,37 +567,19 @@ export default function Admin() {
                           inputMode="numeric"
                           placeholder="e.g. 100"
                           value={priceEntry.ml_sizes}
-                          onFocus={(e) => {
-                            if (Number(e.target.value) === 0)
-                              e.target.select();
-                          }}
-                          onChange={(e) =>
-                            setPriceEntry({
-                              ...priceEntry,
-                              ml_sizes: e.target.value,
-                            })
-                          }
+                          onFocus={(e) => { if (Number(e.target.value) === 0) e.target.select(); }}
+                          onChange={(e) => setPriceEntry({ ...priceEntry, ml_sizes: e.target.value })}
                         />
                       </div>
                       <div className="price-entry-field">
-                        <span className="price-entry-label">
-                          {t("formModal.originalPrice")}
-                        </span>
+                        <span className="price-entry-label">{t("formModal.originalPrice")}</span>
                         <input
                           type="number"
                           step="0.01"
                           placeholder="0.00"
                           value={priceEntry.old_money}
-                          onFocus={(e) => {
-                            if (Number(e.target.value) === 0)
-                              e.target.select();
-                          }}
-                          onChange={(e) =>
-                            setPriceEntry({
-                              ...priceEntry,
-                              old_money: e.target.value,
-                            })
-                          }
+                          onFocus={(e) => { if (Number(e.target.value) === 0) e.target.select(); }}
+                          onChange={(e) => setPriceEntry({ ...priceEntry, old_money: e.target.value })}
                         />
                       </div>
                       <div className="price-entry-field">
@@ -723,37 +588,21 @@ export default function Admin() {
                           type="number"
                           placeholder="0"
                           value={priceEntry.discount}
-                          onFocus={(e) => {
-                            if (Number(e.target.value) === 0)
-                              e.target.select();
-                          }}
-                          onChange={(e) =>
-                            setPriceEntry({
-                              ...priceEntry,
-                              discount: e.target.value,
-                            })
-                          }
+                          onFocus={(e) => { if (Number(e.target.value) === 0) e.target.select(); }}
+                          onChange={(e) => setPriceEntry({ ...priceEntry, discount: e.target.value })}
                         />
                       </div>
                       <div className="price-entry-field price-entry-preview">
                         <span className="price-entry-label">{t("formModal.finalPrice")}</span>
                         <span className="price-final-preview">
-                          {calcDiscountedPrice(
-                            priceEntry.old_money,
-                            priceEntry.discount,
-                          ).toFixed(2)}
+                          {calcDiscountedPrice(priceEntry.old_money, priceEntry.discount).toFixed(2)}
                         </span>
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      className="btn primary price-add-btn"
-                      onClick={addPriceEntry}
-                    >
+                    <button type="button" className="btn primary price-add-btn" onClick={addPriceEntry}>
                       {t("formModal.addPriceEntry")}
                     </button>
                   </div>
-
                   <div className="price-entries-list">
                     {Array.isArray(draft.prices) && draft.prices.length > 0 ? (
                       draft.prices.map((entry, idx) => (
@@ -763,48 +612,37 @@ export default function Admin() {
                             <span className="price-entry-chip-final">
                               {Number(entry.price).toFixed(2)} UZS
                             </span>
-                            {Number(entry.old_money) > 0 &&
-                              Number(entry.old_money) !==
-                              Number(entry.price) && (
-                                <span className="price-entry-chip-old">
-                                  {Number(entry.old_money).toFixed(2)}
-                                </span>
-                              )}
+                            {Number(entry.old_money) > 0 && Number(entry.old_money) !== Number(entry.price) && (
+                              <span className="price-entry-chip-old">{Number(entry.old_money).toFixed(2)}</span>
+                            )}
                             {Number(entry.discount) > 0 && (
-                              <span className="price-entry-chip-discount">
-                                -{entry.discount}%
-                              </span>
+                              <span className="price-entry-chip-discount">-{entry.discount}%</span>
                             )}
                           </div>
                           <button
                             type="button"
                             className="ml-x"
                             onClick={() => removePriceEntry(idx)}
-                            aria-label={`${t("formModal.removeImage", { n: idx + 1 })}`}
+                            aria-label={`Remove price ${idx + 1}`}
                           >
                             ✕
                           </button>
                         </div>
                       ))
                     ) : (
-                      <span className="muted" style={{ fontSize: 13 }}>
-                        {t("formModal.noPriceEntries")}
-                      </span>
+                      <span className="muted" style={{ fontSize: 13 }}>{t("formModal.noPriceEntries")}</span>
                     )}
                   </div>
                 </div>
+
                 {/* ── RELEASE DATE ── */}
                 <div className="form-row">
-                  <label htmlFor="product-release">
-                    {t("formModal.releaseDate")}
-                  </label>
+                  <label htmlFor="product-release">{t("formModal.releaseDate")}</label>
                   <input
                     id="product-release"
                     type="date"
                     value={draft.release_date}
-                    onChange={(e) =>
-                      setDraft({ ...draft, release_date: e.target.value })
-                    }
+                    onChange={(e) => setDraft({ ...draft, release_date: e.target.value })}
                   />
                 </div>
 
@@ -814,16 +652,12 @@ export default function Admin() {
                     id="product-info"
                     rows={4}
                     value={draft.info}
-                    onChange={(e) =>
-                      setDraft({ ...draft, info: e.target.value })
-                    }
+                    onChange={(e) => setDraft({ ...draft, info: e.target.value })}
                   />
                 </div>
 
                 <div className="form-row">
-                  <label htmlFor="product-images">
-                    {t("formModal.images")}
-                  </label>
+                  <label htmlFor="product-images">{t("formModal.images")}</label>
                   <input
                     id="product-images"
                     type="file"
@@ -832,9 +666,7 @@ export default function Admin() {
                     onChange={onPickImages}
                   />
                   <div className="upload-hint">
-                    {uploading
-                      ? t("formModal.uploading")
-                      : t("formModal.uploadHint")}
+                    {uploading ? t("formModal.uploading") : t("formModal.uploadHint")}
                   </div>
                   <div className="thumbs">
                     {(draft.images || []).map((src, idx) => (
@@ -846,14 +678,13 @@ export default function Admin() {
                           height={190}
                           loading="lazy"
                           decoding="async"
+                          onError={(e) => { e.currentTarget.src = PLACEHOLDER; }}
                         />
                         <button
                           type="button"
                           className="miniX"
                           onClick={() => removeImage(idx)}
-                          aria-label={t("formModal.removeImage", {
-                            n: idx + 1,
-                          })}
+                          aria-label={t("formModal.removeImage", { n: idx + 1 })}
                         >
                           ✕
                         </button>
@@ -864,11 +695,7 @@ export default function Admin() {
               </div>
 
               <div className="modal-actions">
-                <button
-                  type="button"
-                  className="btn ghost"
-                  onClick={closeFormModal}
-                >
+                <button type="button" className="btn ghost" onClick={closeFormModal}>
                   {t("formModal.cancel")}
                 </button>
                 <button
@@ -877,12 +704,8 @@ export default function Admin() {
                   disabled={uploading || adding || updating}
                 >
                   {mode === "add"
-                    ? adding
-                      ? t("formModal.adding")
-                      : t("formModal.addBtn")
-                    : updating
-                      ? t("formModal.saving")
-                      : t("formModal.saveBtn")}
+                    ? adding ? t("formModal.adding") : t("formModal.addBtn")
+                    : updating ? t("formModal.saving") : t("formModal.saveBtn")}
                 </button>
               </div>
             </form>
@@ -893,27 +716,17 @@ export default function Admin() {
       {/* ── DELETE CONFIRM MODAL ── */}
       {openDelete && deleteTarget && (
         <div className="modal-overlay" onClick={closeDeleteModal}>
-          <div
-            className="modal delete-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal delete-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-top delete-top">
               <div className="delete-head">
-                <div className="danger-dot" aria-hidden="true">
-                  !
-                </div>
+                <div className="danger-dot" aria-hidden="true">!</div>
                 <div>
                   <h3 className="modal-h">{t("deleteModal.title")}</h3>
-                  <p className="muted delete-sub">
-                    {t("deleteModal.subtitle")}
-                  </p>
+                  <p className="muted delete-sub">{t("deleteModal.subtitle")}</p>
                 </div>
               </div>
-              <button className="icon-btn" onClick={closeDeleteModal}>
-                ✕
-              </button>
+              <button className="icon-btn" onClick={closeDeleteModal}>✕</button>
             </div>
-
             <div className="modal-body">
               <div className="delete-card">
                 <img
@@ -922,33 +735,23 @@ export default function Admin() {
                   alt={deleteTarget.title || t("misc.unknownProduct")}
                   width={58}
                   height={58}
-                  onError={(e) =>
-                    (e.currentTarget.src = "https://via.placeholder.com/58")
-                  }
+                  onError={(e) => { e.currentTarget.src = PLACEHOLDER; }}
                 />
                 <div className="delete-meta">
-                  <div className="delete-title">
-                    {deleteTarget.title || t("misc.untitled")}
-                  </div>
+                  <div className="delete-title">{deleteTarget.title || t("misc.untitled")}</div>
                   <div className="delete-small">
                     {deleteTarget.brand || t("misc.dash")} •{" "}
-                    <span className="badge">
-                      {deleteTarget.gender || "unisex"}
-                    </span>
+                    <span className="badge">{deleteTarget.gender || "unisex"}</span>
                   </div>
                 </div>
               </div>
-
               <div className="delete-warn">
-                <div className="delete-warn-icn" aria-hidden="true">
-                  ⚠
-                </div>
+                <div className="delete-warn-icn" aria-hidden="true">⚠</div>
                 <div>
                   <b>{t("deleteModal.headsUp")}</b> {t("deleteModal.warnText")}
                 </div>
               </div>
             </div>
-
             <div className="modal-actions delete-actions">
               <button
                 className="btn ghost"
@@ -964,9 +767,7 @@ export default function Admin() {
                 onClick={confirmDelete}
                 disabled={deleteBusy}
               >
-                {deleteBusy
-                  ? t("deleteModal.deleting")
-                  : t("deleteModal.confirm")}
+                {deleteBusy ? t("deleteModal.deleting") : t("deleteModal.confirm")}
               </button>
             </div>
           </div>
@@ -977,8 +778,8 @@ export default function Admin() {
 }
 
 function firstImage(images) {
-  if (Array.isArray(images) && images.length > 0) return images[0];
-  return "https://via.placeholder.com/46";
+  if (Array.isArray(images) && images.length > 0 && images[0]) return images[0];
+  return PLACEHOLDER;
 }
 
 function productToDraft(p) {
@@ -996,9 +797,8 @@ function productToDraft(p) {
 function Gallery({ images, title, t }) {
   const safe = Array.isArray(images) ? images.filter(Boolean) : [];
   const [idx, setIdx] = useState(0);
-  const current = safe[idx] || "https://via.placeholder.com/520x360";
-  const prev = () =>
-    safe.length && setIdx((p) => (p - 1 + safe.length) % safe.length);
+  const current = safe[idx] || PLACEHOLDER;
+  const prev = () => safe.length && setIdx((p) => (p - 1 + safe.length) % safe.length);
   const next = () => safe.length && setIdx((p) => (p + 1) % safe.length);
 
   return (
@@ -1010,26 +810,12 @@ function Gallery({ images, title, t }) {
           style={{ width: "100%", height: "100%", objectFit: "contain" }}
           loading="lazy"
           decoding="async"
-          onError={(e) =>
-            (e.currentTarget.src = "https://via.placeholder.com/520x360")
-          }
+          onError={(e) => { e.currentTarget.src = PLACEHOLDER; }}
         />
         {safe.length > 1 && (
           <>
-            <button
-              className="nav-btn left"
-              onClick={prev}
-              aria-label="Previous image"
-            >
-              ‹
-            </button>
-            <button
-              className="nav-btn right"
-              onClick={next}
-              aria-label="Next image"
-            >
-              ›
-            </button>
+            <button className="nav-btn left" onClick={prev} aria-label="Previous image">‹</button>
+            <button className="nav-btn right" onClick={next} aria-label="Next image">›</button>
           </>
         )}
       </div>
@@ -1052,6 +838,7 @@ function Gallery({ images, title, t }) {
                 height={56}
                 loading="lazy"
                 decoding="async"
+                onError={(e) => { e.currentTarget.src = PLACEHOLDER; }}
               />
             </button>
           ))
@@ -1081,22 +868,12 @@ function AdminSkeleton() {
       </div>
       <div className="sk-card">
         <div className="sk-thead">
-          {["Product", "Brand", "Gender", "Price", "ML", "Actions"].map(
-            (_, i) => (
-              <div
-                key={i}
-                className="sk-block sk-th"
-                style={{ width: [140, 80, 70, 90, 80, 80][i] }}
-              />
-            ),
-          )}
+          {["Product", "Brand", "Gender", "Price", "ML", "Actions"].map((_, i) => (
+            <div key={i} className="sk-block sk-th" style={{ width: [140, 80, 70, 90, 80, 80][i] }} />
+          ))}
         </div>
         {Array.from({ length: 6 }).map((_, i) => (
-          <div
-            key={i}
-            className="sk-row"
-            style={{ animationDelay: `${i * 60}ms` }}
-          >
+          <div key={i} className="sk-row" style={{ animationDelay: `${i * 60}ms` }}>
             <div className="sk-product-cell">
               <div className="sk-block sk-avatar" />
               <div className="sk-product-text">
@@ -1121,7 +898,5 @@ function AdminSkeleton() {
 }
 
 function getErr(err) {
-  return (
-    err?.data?.message || err?.error || err?.message || "Something went wrong"
-  );
+  return err?.data?.message || err?.error || err?.message || "Something went wrong";
 }
