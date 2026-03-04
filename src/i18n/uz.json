@@ -64,12 +64,12 @@
         "admin_panel": "Admin paneli"
     },
     "hero": {
-        "title": "Glow Parfum — Original Atirlar Onlayn Do'koni Uzbekiston",
-        "info": "Uzbekistonda eng yaxshi original parfyumlar: erkaklar, ayollar va uniseks atirlar. Tez yetkazib berish, sifat kafolati va qulay narxlar. 100% original brendlar."
+        "title": "Glow parfum uz",
+        "info": "Bizda eng original va sifatli parfyumlar"
     },
     "products": {
-        "hero_title": "Parfyumlar Katalogi — Erkaklar va Ayollar Atirlari",
-        "hero_subtitle": "Keng tanlangan original parfyumlar: chegirmalar, turli hajmlar va qulay narxlar. Brend bo'yicha qidiring va o'zingizga mos atirni toping.",
+        "hero_title": "Mahsulotlar",
+        "hero_subtitle": "Toza, zamonaviy katalog — narxlar, chegirmalar va o'lchamlar.",
         "search_placeholder": "Nomi yoki brend bo'yicha qidirish...",
         "gender_all": "Barcha jinslar",
         "gender_men": "Erkaklar",
@@ -119,7 +119,7 @@
         "notFound": "Mahsulot topilmadi.",
         "home": "Bosh sahifa",
         "newArrivals": "Yangi mahsulotlar",
-        "perfumeWater": "Original Parfyumeriya Suvi — Glow Parfum",
+        "perfumeWater": "Parfyumeriya suvi",
         "women": "Ayollar uchun",
         "men": "Erkaklar uchun",
         "volume": "Hajmi",
