@@ -64,12 +64,12 @@
         "admin_panel": "Admin Panel"
     },
     "hero": {
-        "title": "Glow parfum uz",
-        "info": "We have the most original and high-quality perfumes"
+        "title": "Glow Parfum — Original Perfumes Online Store Uzbekistan",
+        "info": "Buy original perfumes in Uzbekistan: men's, women's and unisex fragrances. Fast delivery, quality guarantee and affordable prices. 100% authentic brands."
     },
     "products": {
-        "hero_title": "Products",
-        "hero_subtitle": "Clean, modern catalogue — prices, discounts, ML sizes.",
+        "hero_title": "Perfume Catalogue — Men's and Women's Fragrances",
+        "hero_subtitle": "Wide selection of original perfumes: discounts, multiple sizes and great prices. Find your perfect scent from top international brands.",
         "search_placeholder": "Search by title or brand...",
         "gender_all": "All genders",
         "gender_men": "Men",
@@ -119,7 +119,7 @@
         "notFound": "Product not found.",
         "home": "Home",
         "newArrivals": "New Arrivals",
-        "perfumeWater": "Eau de Parfum",
+        "perfumeWater": "Original Eau de Parfum — Glow Parfum",
         "women": "Women",
         "men": "Men",
         "volume": "Volume",
